@@ -98,10 +98,17 @@ To represent constraints of the puzzle we should introduce following logical con
 
 ## User documentation
 
+Basic usage:
+
+```
+python numberlink.py [-i INPUT] [-o OUTPUT] [-s SOLVER] [-v BOOL]
+```
+
 Command-line options:
 - `-i INPUT`, `--input INPUT` : The instance file. Default: "instances/test-sat"
 - `-o OUTPUT`, `--output OUTPUT` : Output file for the DIMACS format (i.e. the CNF formula)
 - `-s SOLVER`, `--solver SOLVER` : The SAT solver to be used. Default: "glucose-syrup"
+- `-v BOOL`, `--verbose BOOL`: Verbosity of the program. Default: False
 
 Example instances:
 - `instances/test-sat`: 10 by 10 solvable test instance, verifiable by human

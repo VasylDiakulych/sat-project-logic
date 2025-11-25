@@ -191,7 +191,7 @@ class NumberlinkSAT:
                     #edge -> node_bot ~ NOT edge OR node_bot
                     self.clauses.append([-edge, node_bot])
 
-    def solve(self, output = "formula.cnf", solver_path="glucose-syrup"):
+    def solve(self, output = "formula.cnf", solver_path="glucose-syrup", verbose = False):
 
         self.write_dimacs(output)
 
@@ -205,7 +205,9 @@ class NumberlinkSAT:
             return
 
         output = process.stdout
-        print(output)
+        if(verbose == True):
+            print(output)
+
         if not ("UNSATISFIABLE" in output):
             vars = set()
             for line in output.splitlines():
@@ -242,6 +244,8 @@ class NumberlinkSAT:
                         color_code = ((val * 1013) % 216) + 16
                     line_str += f"\033[48;5;{color_code}m  \033[0m"
                 print(line_str)
+        else:
+            print("Unable to find a model")
 
 def parse_grid(filename):
     with open(filename, 'r') as f:
@@ -310,6 +314,16 @@ if __name__ == "__main__":
         )
     )
 
+    parser.add_argument(
+        "-v",
+        "--verbose",
+        default=False,
+        type=bool,
+        help=(
+            "Verbosity of the output"
+        )
+    )
+
     args = parser.parse_args()
 
     grid = parse_grid(args.input)
@@ -320,4 +334,4 @@ if __name__ == "__main__":
     solver.add_neighborhood_constraints()
     solver.add_consistency_constraints()
 
-    solver.solve(output=args.output, solver_path=args.solver)
+    solver.solve(output=args.output, solver_path=args.solver, verbose=args.verbose)
