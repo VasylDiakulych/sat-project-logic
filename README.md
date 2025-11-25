@@ -10,7 +10,7 @@ Made by Vasyl Diakulych
 The player has to pair up all the matching numbers on the grid with single continuous lines (or paths). The lines cannot branch off or cross over each other, and the numbers have to fall at the end of each line (i.e., not in the middle). Also, paths and numbers on their ends together should cover entire board.
 Also, this project is oriented on variation, where you cannot include "U-turns".
 
-![[Pasted image 20251125170535.png]]
+![[Pasted image 20251125170535.png]](https://github.com/VasylDiakulych/sat-project-logic/blob/main/.images_readme/Pasted%20image%2020251125170535.png)]
 
 In image above you can see an example of such U-turn. If this was allowed, such input would be solvable, but with this constraint it isn't.
 
@@ -33,7 +33,7 @@ Valid input example:
 
 Output for this example is:
 
-![[Pasted image 20251125174808.png]]
+![image2.png](https://github.com/VasylDiakulych/sat-project-logic/blob/main/.images_readme/Pasted%20image%2020251125174808.png)
 
 ## Encoding
 
