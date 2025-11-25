@@ -42,6 +42,7 @@ class NumberlinkSAT:
             for clause in self.clauses:
                 f.write(" ".join(map(str,clause)) + " 0\n")
 
+    #initial grid constrains
     def set_initial_state(self):
         for row in range(self.Rows):
             for col in range(self.Cols):
@@ -60,7 +61,7 @@ class NumberlinkSAT:
                             wrong_id = self.get_node_id(row,col,k)
                             self.clauses.append([-wrong_id])
 
-
+    #helper function for getting id's of neighbors for given cell
     def get_neighb_edges(self, row, col, k):
         neighbors = []
 
@@ -195,7 +196,7 @@ class NumberlinkSAT:
         self.write_dimacs(output)
 
         try:
-            process = subprocess.run([solver_path, "-model", output],
+            process = subprocess.run([solver_path, "-model" ,output],
                                      capture_output=True,
                                      text=True
                                      )
@@ -204,46 +205,43 @@ class NumberlinkSAT:
             return
 
         output = process.stdout
+        print(output)
+        if not ("UNSATISFIABLE" in output):
+            vars = set()
+            for line in output.splitlines():
+                if line.startswith('v'):
+                    parts = line.split()
+                    for x in parts[1:]:
+                        val = int(x)
+                        if val > 0:
+                            vars.add(val)
 
-        if "UNSATISFIABLE" in output:
-            print("UNSATISFIABLE: No solution exists")
-            return
+            #interpret the output
+            final_grid = [[0] * self.Cols for _ in range(self.Rows)]
 
-        vars = set()
-        for line in output.splitlines():
-            if line.startswith('v'):
-                parts = line.split()
-                for x in parts[1:]:
-                    val = int(x)
-                    if val > 0:
-                        vars.add(val)
+            for row in range(self.Rows):
+                for col in range(self.Cols):
+                    for k in range(self.K):
+                        node_id = self.get_node_id(row, col, k)
 
-        #interpret the output
-        final_grid = [[0] * self.Cols for _ in range(self.Rows)]
+                        if node_id in vars:
+                            color = self.colors[k]
+                            final_grid[row][col] = color
+                            break
 
-        for row in range(self.Rows):
-            for col in range(self.Cols):
-                for k in range(self.K):
-                    node_id = self.get_node_id(row, col, k)
-
-                    if node_id in vars:
-                        color = self.colors[k]
-                        final_grid[row][col] = color
-                        break
-
-        print("\n--- SOLUTION ---")
-        #colorcoding the solution for better visibility
-        for row in final_grid:
-            line_str = ""
-            for val in row:
-                # if everything works fine, you should never see this color, since it is reserved for empty cells
-                if val == 0:
-                    color_code = 235
-                else:
-                    #simple hashing to get "random" color
-                    color_code = ((val * 1013) % 216) + 16
-                line_str += f"\033[48;5;{color_code}m  \033[0m"
-            print(line_str)
+            print("\n--- HUMAN READABLE SOLUTION ---")
+            #colorcoding the solution for better visibility
+            for row in final_grid:
+                line_str = ""
+                for val in row:
+                    # if everything works fine, you should never see this color, since it is reserved for empty cells
+                    if val == 0:
+                        color_code = 235
+                    else:
+                        #simple hashing to get "random" color
+                        color_code = ((val * 1013) % 216) + 16
+                    line_str += f"\033[48;5;{color_code}m  \033[0m"
+                print(line_str)
 
 def parse_grid(filename):
     with open(filename, 'r') as f:
