@@ -23,13 +23,13 @@ As input, program takes a grid $n \times m$, where each cell is either '.'(dot) 
 Any character, except the dot, must appear either 0 times or exactly twice.
 Valid input example:
 
-...f...
-.3..@a.
-...31..
-...a...
-.......
-..1....
-@...f..
+...f... <br>
+.3..@a. <br>
+...31.. <br>
+...a... <br>
+....... <br>
+..1.... <br>
+@...f.. <br>
 
 Output for this example is:
 
