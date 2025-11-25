@@ -241,7 +241,7 @@ class NumberlinkSAT:
                     color_code = 235
                 else:
                     #simple hashing to get "random" color
-                    color_code = ((val * 1001) % 216) + 16
+                    color_code = ((val * 1013) % 216) + 16
                 line_str += f"\033[48;5;{color_code}m  \033[0m"
             print(line_str)
 
