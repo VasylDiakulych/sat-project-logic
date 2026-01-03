@@ -118,7 +118,7 @@ Example instances:
 ## Experiments
 After project was done, I was experimenting with different starting grids. 
 
-Grid 30x30 with 15 colors took about 5 minutes 40 seconds
-Grid 25x25 with 12 colors took about 36 seconds
-Grid 20x20 with 10 colors took about 2 seconds
-Grids with more than 1 solution, produce always the same solution(expected)
+- Grid 30x30 with 15 colors took about 5 minutes 40 seconds
+- Grid 25x25 with 12 colors took about 36 seconds
+- Grid 20x20 with 10 colors took about 2 seconds
+- Grids with more than 1 solution, produce always the same solution(expected)
